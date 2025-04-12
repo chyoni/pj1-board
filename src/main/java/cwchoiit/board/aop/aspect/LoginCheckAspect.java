@@ -1,5 +1,6 @@
-package cwchoiit.board.aop;
+package cwchoiit.board.aop.aspect;
 
+import cwchoiit.board.aop.annotation.LoginCheck;
 import cwchoiit.board.utils.SessionUtil;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -12,8 +13,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.Optional;
 
-import static cwchoiit.board.aop.LoginCheck.UserType.ADMIN;
-import static cwchoiit.board.aop.LoginCheck.UserType.USER;
+import static cwchoiit.board.aop.annotation.LoginCheck.UserType.ADMIN;
+import static cwchoiit.board.aop.annotation.LoginCheck.UserType.USER;
 
 @Slf4j
 @Aspect
@@ -27,7 +28,7 @@ public class LoginCheckAspect {
      *
      * @throws Throwable 로그인 하지 않았거나, 알 수 없는 예외 발생 시
      */
-    @Around("@annotation(cwchoiit.board.aop.LoginCheck) && @annotation(loginCheck)")
+    @Around("@annotation(cwchoiit.board.aop.annotation.LoginCheck) && @annotation(loginCheck)")
     public Object loginCheck(ProceedingJoinPoint joinPoint, LoginCheck loginCheck) throws Throwable {
         HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest()
