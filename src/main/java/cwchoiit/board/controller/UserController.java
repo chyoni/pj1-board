@@ -1,6 +1,5 @@
 package cwchoiit.board.controller;
 
-import cwchoiit.board.aop.LoginCheck;
 import cwchoiit.board.auth.annotation.LoginUserId;
 import cwchoiit.board.service.UserService;
 import cwchoiit.board.service.request.DeleteUserRequest;
@@ -16,9 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Objects;
-
-import static cwchoiit.board.aop.LoginCheck.UserType.*;
 import static cwchoiit.board.utils.SessionUtil.*;
 
 @Slf4j
