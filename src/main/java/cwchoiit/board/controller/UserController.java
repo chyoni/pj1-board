@@ -1,6 +1,7 @@
 package cwchoiit.board.controller;
 
 import cwchoiit.board.aop.LoginCheck;
+import cwchoiit.board.auth.annotation.LoginUserId;
 import cwchoiit.board.service.UserService;
 import cwchoiit.board.service.request.DeleteUserRequest;
 import cwchoiit.board.service.request.LoginUserRequest;
@@ -34,7 +35,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginUserResponse> login(@RequestBody LoginUserRequest request, HttpSession session) {
+    public ResponseEntity<LoginUserResponse> login(@RequestBody LoginUserRequest request,
+                                                   HttpSession session) {
         UserInfoResponse loginUser = userService.login(request);
 
         if (loginUser == null) {
@@ -51,12 +53,7 @@ public class UserController {
     }
 
     @GetMapping("/info")
-    public ResponseEntity<UserInfoResponse> info(HttpSession session) {
-        String id = getLoginMemberId(session);
-        if (id == null) {
-            id = getLoginAdminId(session);
-        }
-
+    public ResponseEntity<UserInfoResponse> info(@LoginUserId String id) {
         return ResponseEntity.ok(UserInfoResponse.of(userService.getUserInfo(id)));
     }
 
@@ -67,15 +64,15 @@ public class UserController {
     }
 
     @PatchMapping("/password")
-    @LoginCheck(type = USER)
-    public ResponseEntity<Void> updatePassword(String id, @RequestBody UpdatePasswordRequest request) {
+    public ResponseEntity<Void> updatePassword(@LoginUserId String id,
+                                               @RequestBody UpdatePasswordRequest request) {
         userService.updatePassword(id, request);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping
-    @LoginCheck(type = USER)
-    public ResponseEntity<Void> delete(String id, @RequestBody DeleteUserRequest request) {
+    public ResponseEntity<Void> delete(@LoginUserId String id,
+                                       @RequestBody DeleteUserRequest request) {
         userService.deleteUser(id, request.getPassword());
         return ResponseEntity.ok().build();
     }
