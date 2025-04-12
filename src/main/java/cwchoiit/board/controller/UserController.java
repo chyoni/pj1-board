@@ -1,5 +1,6 @@
 package cwchoiit.board.controller;
 
+import cwchoiit.board.aop.LoginCheck;
 import cwchoiit.board.service.UserService;
 import cwchoiit.board.service.request.DeleteUserRequest;
 import cwchoiit.board.service.request.LoginUserRequest;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
+import static cwchoiit.board.aop.LoginCheck.UserType.*;
 import static cwchoiit.board.utils.SessionUtil.*;
 
 @Slf4j
@@ -65,14 +67,16 @@ public class UserController {
     }
 
     @PatchMapping("/password")
-    public ResponseEntity<Void> updatePassword(@RequestBody UpdatePasswordRequest request, HttpSession session) {
-        userService.updatePassword(getLoginMemberId(session), request);
+    @LoginCheck(type = USER)
+    public ResponseEntity<Void> updatePassword(String id, @RequestBody UpdatePasswordRequest request) {
+        userService.updatePassword(id, request);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> delete(@RequestBody DeleteUserRequest request, HttpSession session) {
-        userService.deleteUser(getLoginMemberId(session), request.getPassword());
+    @LoginCheck(type = USER)
+    public ResponseEntity<Void> delete(String id, @RequestBody DeleteUserRequest request) {
+        userService.deleteUser(id, request.getPassword());
         return ResponseEntity.ok().build();
     }
 }
