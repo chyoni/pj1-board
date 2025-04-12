@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cwchoiit.board.mapper.UserMapper">
+    <select id="read" resultType="cwchoiit.board.service.response.UserInfoResponse">
+        select id, user_id, password, nickname, is_admin, created_at, is_withdraw
+        from user
+        where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="cwchoiit.board.service.request.RegisterUserRequest">
+        insert into user (user_id, password, nickname, is_withdraw, is_admin, created_at, updated_at)
+        values (#{userId}, #{password}, #{nickname}, #{isWithdraw}, #{isAdmin}, #{createdAt}, #{updatedAt})
+    </insert>
+
+    <delete id="delete">
+        delete
+        from user
+        where id = #{id}
+    </delete>
+
+    <select id="findByUserIdAndPassword" resultType="cwchoiit.board.service.response.UserInfoResponse">
+        select id, user_id, password, nickname, is_admin, created_at, is_withdraw
+        from user
+        where user_id = #{userId}
+          and password = #{password}
+    </select>
+
+    <select id="findByIdAndPassword" resultType="cwchoiit.board.service.response.UserInfoResponse">
+        select id, user_id, password, nickname, is_admin, created_at, is_withdraw
+        from user
+        where id = #{id}
+          and password = #{password}
+    </select>
+
+    <select id="idCheck" resultType="int">
+        select count(id)
+        from user
+        where user_id = #{userId}
+    </select>
+
+    <update id="updatePassword" parameterType="map">
+        update user
+        set password = #{req.newPassword}
+        where id = #{id}
+          and password = #{req.oldPassword}
+    </update>
+</mapper>
