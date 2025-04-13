@@ -8,10 +8,6 @@ import lombok.ToString;
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class RegisterUserRequest {
-    private String userId;
-    private String password;
-    private String nickname;
-    private boolean admin;
-    private boolean withdraw;
+public class UpdateCategoryRequest {
+    private String name;
 }

@@ -1,6 +1,7 @@
 package cwchoiit.board.auth.resolver;
 
 import cwchoiit.board.auth.annotation.LoginUserId;
+import cwchoiit.board.exception.NotFoundUserException;
 import cwchoiit.board.utils.SessionUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -29,11 +30,11 @@ public class LoginUserIdArgumentResolver implements HandlerMethodArgumentResolve
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         HttpSession session = request.getSession(false);
         if (session == null) {
-            throw new RuntimeException("No session found");
+            throw new NotFoundUserException("No session found");
         }
 
         return Optional.ofNullable(SessionUtil.getLoginMemberId(session))
                 .or(() -> Optional.ofNullable(SessionUtil.getLoginAdminId(session)))
-                .orElseThrow(() -> new RuntimeException("You are not logged in."));
+                .orElseThrow(() -> new NotFoundUserException("You are not logged in."));
     }
 }

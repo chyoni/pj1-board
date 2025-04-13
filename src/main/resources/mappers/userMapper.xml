@@ -4,7 +4,18 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cwchoiit.board.mapper.UserMapper">
-    <select id="read" resultType="cwchoiit.board.model.User">
+
+    <resultMap id="userResultMap" type="cwchoiit.board.model.User">
+        <result column="user_id" property="userId"/>
+        <result column="password" property="password"/>
+        <result column="nickname" property="nickname"/>
+        <result column="is_admin" property="admin"/>
+        <result column="is_withdraw" property="withdraw"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="read" resultMap="userResultMap">
         select id,
                user_id,
                password,
@@ -19,7 +30,7 @@
 
     <insert id="insert" parameterType="cwchoiit.board.model.User">
         insert into user (user_id, password, nickname, is_withdraw, is_admin, created_at, updated_at)
-        values (#{userId}, #{password}, #{nickname}, #{isWithdraw}, #{isAdmin}, #{createdAt}, #{updatedAt})
+        values (#{userId}, #{password}, #{nickname}, #{withdraw}, #{admin}, #{createdAt}, #{updatedAt})
     </insert>
 
     <delete id="delete">
@@ -28,15 +39,15 @@
         where id = #{id}
     </delete>
 
-    <select id="findByUserIdAndPassword" resultType="cwchoiit.board.model.User" parameterType="cwchoiit.board.model.User">
-        select id, user_id, password, nickname, is_admin, created_at, is_withdraw
+    <select id="findByUserIdAndPassword" resultMap="userResultMap" parameterType="cwchoiit.board.model.User">
+        select id, user_id, password, nickname, is_admin, is_withdraw, created_at, updated_at
         from user
         where user_id = #{userId}
           and password = #{password}
     </select>
 
-    <select id="findByIdAndPassword" resultType="cwchoiit.board.model.User" parameterType="cwchoiit.board.model.User">
-        select id, user_id, password, nickname, is_admin, created_at, is_withdraw
+    <select id="findByIdAndPassword" resultMap="userResultMap" parameterType="cwchoiit.board.model.User">
+        select id, user_id, password, nickname, is_admin, is_withdraw, created_at, updated_at
         from user
         where id = #{id}
           and password = #{password}
