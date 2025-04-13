@@ -35,10 +35,6 @@ public class UserController {
                                                    HttpSession session) {
         UserInfoResponse loginUser = userService.login(request);
 
-        if (loginUser == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
         if (loginUser.isAdmin()) {
             setLoginAdminId(session, String.valueOf(loginUser.getId()));
         } else {
@@ -50,7 +46,7 @@ public class UserController {
 
     @GetMapping("/info")
     public ResponseEntity<UserInfoResponse> info(@LoginUserId String id) {
-        return ResponseEntity.ok(UserInfoResponse.of(userService.getUserInfo(id)));
+        return ResponseEntity.ok(userService.getUserInfo(id));
     }
 
     @PutMapping("/logout")

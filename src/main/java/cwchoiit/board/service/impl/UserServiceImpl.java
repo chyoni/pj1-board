@@ -1,7 +1,9 @@
 package cwchoiit.board.service.impl;
 
 import cwchoiit.board.exception.DuplicateIdException;
+import cwchoiit.board.exception.NotFoundUserException;
 import cwchoiit.board.mapper.UserMapper;
+import cwchoiit.board.model.User;
 import cwchoiit.board.service.UserService;
 import cwchoiit.board.service.request.LoginUserRequest;
 import cwchoiit.board.service.request.RegisterUserRequest;
@@ -11,8 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import static cwchoiit.board.utils.SHA256Util.encryptSHA256;
 
 @Slf4j
 @Service
@@ -28,51 +28,48 @@ public class UserServiceImpl implements UserService {
         validationRegister(request);
 
         int insertCount = userMapper.insert(
-                request.with(encryptSHA256(request.getPassword()))
+                User.create(
+                        request.getUserId(),
+                        request.getNickname(),
+                        request.getPassword(),
+                        request.isAdmin(),
+                        request.isWithdraw()
+                )
         );
 
-        if (insertCount != 1) {
-            log.error("[register:33] Register error: {} ", request);
-            throw new RuntimeException("Register error with payload: " + request);
-        }
+        postValidationRegister(request, insertCount);
     }
 
     @Override
     public UserInfoResponse login(LoginUserRequest request) {
-        return userMapper.findByUserIdAndPassword(
-                request.getUserId(),
-                encryptSHA256(request.getPassword())
-        );
-    }
-
-    @Override
-    public boolean isDuplicatedId(String userId) {
-        return userMapper.idCheck(userId) == 1;
+        return userMapper.findByUserIdAndPassword(User.withUserIdAndPassword(request.getUserId(), request.getPassword()))
+                .map(UserInfoResponse::of)
+                .orElseThrow(() -> new NotFoundUserException(
+                        "Could not find user with userId: " + request.getUserId() +
+                                " and password: " + request.getPassword())
+                );
     }
 
     @Override
     public UserInfoResponse getUserInfo(String id) {
-        return userMapper.read(id);
+        return userMapper.read(id)
+                .map(UserInfoResponse::of)
+                .orElseThrow(() -> new NotFoundUserException("Could not find user with id: " + id));
     }
 
     @Override
     @Transactional
     public void updatePassword(String id, UpdatePasswordRequest request) {
-        UserInfoResponse findUser = userMapper.findByIdAndPassword(
-                id,
-                encryptSHA256(request.getOldPassword())
-        );
-
-        if (findUser == null) {
-            log.error("[updatePassword:58] User with id {} not found or password: {} error. ", id, request.getOldPassword());
-            throw new RuntimeException("User with id " + id + " not found or password error: " + request.getOldPassword());
-        }
+        userMapper.findByIdAndPassword(User.withIdAndPassword(Integer.valueOf(id), request.getOldPassword()))
+                .orElseThrow(() -> new NotFoundUserException(
+                        "Could not find user with id: " + id +
+                                " and password: " + request.getOldPassword())
+                );
 
         userMapper.updatePassword(
-                id,
-                UpdatePasswordRequest.of(
-                        encryptSHA256(request.getOldPassword()),
-                        encryptSHA256(request.getNewPassword())
+                User.withIdAndPassword(
+                        Integer.valueOf(id),
+                        request.getNewPassword()
                 )
         );
     }
@@ -80,14 +77,17 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void deleteUser(String id, String password) {
-        UserInfoResponse findUser = userMapper.findByIdAndPassword(id, encryptSHA256(password));
-
-        if (findUser == null) {
-            log.error("[deleteUser:79] User with id {} not found or password: {} error. ", id, password);
-            throw new RuntimeException("User with id " + id + " not found or password error: " + password);
-        }
+        userMapper.findByIdAndPassword(User.withIdAndPassword(Integer.valueOf(id), password))
+                .orElseThrow(() -> new NotFoundUserException(
+                        "Could not find user with id: " + id +
+                                " and password: " + password)
+                );
 
         userMapper.delete(id);
+    }
+
+    private boolean isDuplicatedId(String userId) {
+        return userMapper.idCheck(userId) == 1;
     }
 
     private void validationRegister(RegisterUserRequest request) {
@@ -96,6 +96,13 @@ public class UserServiceImpl implements UserService {
         }
         if (isDuplicatedId(request.getUserId())) {
             throw new DuplicateIdException("User with id " + request.getUserId() + " already exists");
+        }
+    }
+
+    private void postValidationRegister(RegisterUserRequest request, int insertCount) {
+        if (insertCount != 1) {
+            log.error("[register:33] Register error: {} ", request);
+            throw new RuntimeException("Register error with payload: " + request);
         }
     }
 }
