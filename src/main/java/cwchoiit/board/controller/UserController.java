@@ -33,7 +33,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<LoginUserResponse> login(@RequestBody LoginUserRequest request,
                                                    HttpSession session) {
-        UserInfoResponse loginUser = userService.login(request);
+        LoginUserResponse loginUser = userService.login(request);
 
         if (loginUser.isAdmin()) {
             setLoginAdminId(session, String.valueOf(loginUser.getId()));
@@ -41,7 +41,7 @@ public class UserController {
             setLoginMemberId(session, String.valueOf(loginUser.getId()));
         }
 
-        return ResponseEntity.ok(LoginUserResponse.of(loginUser));
+        return ResponseEntity.ok(loginUser);
     }
 
     @GetMapping("/info")

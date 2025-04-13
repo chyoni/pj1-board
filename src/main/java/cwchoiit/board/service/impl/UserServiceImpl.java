@@ -8,6 +8,7 @@ import cwchoiit.board.service.UserService;
 import cwchoiit.board.service.request.LoginUserRequest;
 import cwchoiit.board.service.request.RegisterUserRequest;
 import cwchoiit.board.service.request.UpdatePasswordRequest;
+import cwchoiit.board.service.response.LoginUserResponse;
 import cwchoiit.board.service.response.UserInfoResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,9 +42,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserInfoResponse login(LoginUserRequest request) {
+    public LoginUserResponse login(LoginUserRequest request) {
         return userMapper.findByUserIdAndPassword(User.withUserIdAndPassword(request.getUserId(), request.getPassword()))
-                .map(UserInfoResponse::of)
+                .map(LoginUserResponse::of)
                 .orElseThrow(() -> new NotFoundUserException(
                         "Could not find user with userId: " + request.getUserId() +
                                 " and password: " + request.getPassword())

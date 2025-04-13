@@ -1,5 +1,6 @@
 package cwchoiit.board.service.response;
 
+import cwchoiit.board.model.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,12 +15,12 @@ public class LoginUserResponse {
     private String nickname;
     private boolean isAdmin;
 
-    public static LoginUserResponse of(UserInfoResponse userInfoResponse) {
+    public static LoginUserResponse of(User user) {
         LoginUserResponse loginUserResponse = new LoginUserResponse();
-        loginUserResponse.id = userInfoResponse.getId();
-        loginUserResponse.userId = userInfoResponse.getUserId();
-        loginUserResponse.nickname = userInfoResponse.getNickname();
-        loginUserResponse.isAdmin = userInfoResponse.isAdmin();
+        loginUserResponse.id = user.getId();
+        loginUserResponse.userId = user.getUserId();
+        loginUserResponse.nickname = user.getNickname();
+        loginUserResponse.isAdmin = user.isAdmin();
         return loginUserResponse;
     }
 }
