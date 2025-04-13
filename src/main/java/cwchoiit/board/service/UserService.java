@@ -10,8 +10,6 @@ public interface UserService {
 
     UserInfoResponse login(LoginUserRequest request);
 
-    boolean isDuplicatedId(String userId);
-
     UserInfoResponse getUserInfo(String id);
 
     void updatePassword(String id, UpdatePasswordRequest request);

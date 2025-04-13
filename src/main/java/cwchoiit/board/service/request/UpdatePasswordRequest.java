@@ -11,11 +11,4 @@ import lombok.ToString;
 public class UpdatePasswordRequest {
     private String oldPassword;
     private String newPassword;
-
-    public static UpdatePasswordRequest of(String oldPassword, String newPassword) {
-        UpdatePasswordRequest updatePasswordRequest = new UpdatePasswordRequest();
-        updatePasswordRequest.oldPassword = oldPassword;
-        updatePasswordRequest.newPassword = newPassword;
-        return updatePasswordRequest;
-    }
 }

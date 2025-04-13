@@ -1,25 +1,25 @@
 package cwchoiit.board.mapper;
 
-import cwchoiit.board.service.request.RegisterUserRequest;
-import cwchoiit.board.service.request.UpdatePasswordRequest;
-import cwchoiit.board.service.response.UserInfoResponse;
+import cwchoiit.board.model.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.Optional;
 
 @Mapper
 public interface UserMapper {
 
-    UserInfoResponse read(@Param("id") String id);
+    Optional<User> read(@Param("id") String id);
 
-    int insert(RegisterUserRequest request);
+    int insert(User user);
 
     void delete(@Param("id") String id);
 
-    UserInfoResponse findByUserIdAndPassword(@Param("userId") String userId, @Param("password") String password);
+    Optional<User> findByUserIdAndPassword(User user);
 
-    UserInfoResponse findByIdAndPassword(@Param("id") String id, @Param("password") String password);
+    Optional<User> findByIdAndPassword(User user);
 
     int idCheck(@Param("userId") String userId);
 
-    void updatePassword(@Param("id") String id, @Param("req") UpdatePasswordRequest request);
+    void updatePassword(User user);
 }

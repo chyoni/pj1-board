@@ -1,5 +1,6 @@
 package cwchoiit.board.service.response;
 
+import cwchoiit.board.model.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,15 +20,15 @@ public class UserInfoResponse {
     private LocalDateTime createdAt;
     private boolean isWithdraw;
 
-    public static UserInfoResponse of(UserInfoResponse userInfoResponse) {
-        UserInfoResponse user = new UserInfoResponse();
-        user.id = userInfoResponse.id;
-        user.userId = userInfoResponse.userId;
-        user.password = userInfoResponse.password;
-        user.nickname = userInfoResponse.nickname;
-        user.isAdmin = userInfoResponse.isAdmin;
-        user.createdAt = userInfoResponse.createdAt;
-        user.isWithdraw = userInfoResponse.isWithdraw;
-        return user;
+    public static UserInfoResponse of(User user) {
+        UserInfoResponse userInfoResponse = new UserInfoResponse();
+        userInfoResponse.id = user.getId();
+        userInfoResponse.userId = user.getUserId();
+        userInfoResponse.password = user.getPassword();
+        userInfoResponse.nickname = user.getNickname();
+        userInfoResponse.isAdmin = user.isAdmin();
+        userInfoResponse.createdAt = user.getCreatedAt();
+        userInfoResponse.isWithdraw = user.isWithdraw();
+        return userInfoResponse;
     }
 }
