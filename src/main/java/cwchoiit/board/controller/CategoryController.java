@@ -27,7 +27,7 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.ok());
     }
 
-    @PatchMapping("{categoryId}")
+    @PatchMapping("/{categoryId}")
     @LoginCheck(type = ADMIN)
     public ResponseEntity<ApiResponse<Void>> update(@PathVariable("categoryId") Integer categoryId,
                                                     @RequestBody UpdateCategoryRequest request) {
@@ -35,7 +35,7 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(ApiResponse.ok());
     }
 
-    @DeleteMapping("{categoryId}")
+    @DeleteMapping("/{categoryId}")
     @LoginCheck(type = ADMIN)
     public ResponseEntity<ApiResponse<Void>> delete(@PathVariable("categoryId") Integer categoryId) {
         categoryService.delete(categoryId);
