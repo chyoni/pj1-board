@@ -15,22 +15,22 @@ public class User {
     private String userId;
     private String nickname;
     private String password;
-    private boolean isAdmin;
-    private boolean isWithdraw;
+    private boolean admin;
+    private boolean withdraw;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     public static User create(String userId,
                               String nickname,
                               String password,
-                              boolean isAdmin,
-                              boolean isWithdraw) {
+                              boolean admin,
+                              boolean withdraw) {
         User user = new User();
         user.userId = userId;
         user.nickname = nickname;
         user.password = user.encryptPassword(password);
-        user.isAdmin = isAdmin;
-        user.isWithdraw = isWithdraw;
+        user.admin = admin;
+        user.withdraw = withdraw;
         user.createdAt = LocalDateTime.now();
         user.updatedAt = LocalDateTime.now();
         return user;

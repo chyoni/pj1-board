@@ -13,14 +13,14 @@ public class LoginUserResponse {
     private int id;
     private String userId;
     private String nickname;
-    private boolean isAdmin;
+    private boolean admin;
 
     public static LoginUserResponse of(User user) {
         LoginUserResponse loginUserResponse = new LoginUserResponse();
         loginUserResponse.id = user.getId();
         loginUserResponse.userId = user.getUserId();
         loginUserResponse.nickname = user.getNickname();
-        loginUserResponse.isAdmin = user.isAdmin();
+        loginUserResponse.admin = user.isAdmin();
         return loginUserResponse;
     }
 }

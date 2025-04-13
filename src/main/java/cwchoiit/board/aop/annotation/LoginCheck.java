@@ -10,9 +10,9 @@ import static cwchoiit.board.aop.annotation.LoginCheck.UserType.*;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LoginCheck {
-    UserType type() default USER;
+    UserType type() default LOGGED_IN;
 
     enum UserType {
-        USER, ADMIN
+        USER, ADMIN, LOGGED_IN
     }
 }

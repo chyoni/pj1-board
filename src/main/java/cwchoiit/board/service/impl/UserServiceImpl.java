@@ -2,6 +2,7 @@ package cwchoiit.board.service.impl;
 
 import cwchoiit.board.exception.DuplicateIdException;
 import cwchoiit.board.exception.NotFoundUserException;
+import cwchoiit.board.exception.PayloadValidationException;
 import cwchoiit.board.mapper.UserMapper;
 import cwchoiit.board.model.User;
 import cwchoiit.board.service.UserService;
@@ -88,7 +89,7 @@ public class UserServiceImpl implements UserService {
 
     private void validationRegister(RegisterUserRequest request) {
         if (request.getUserId() == null || request.getPassword() == null || request.getNickname() == null) {
-            throw new RuntimeException("Invalid request: " + request);
+            throw new PayloadValidationException("Invalid request: " + request);
         }
         if (isDuplicatedId(request.getUserId())) {
             throw new DuplicateIdException("User with id " + request.getUserId() + " already exists");
@@ -98,7 +99,7 @@ public class UserServiceImpl implements UserService {
     private void postValidationRegister(RegisterUserRequest request, int insertCount) {
         if (insertCount != 1) {
             log.error("[register:33] Register error: {} ", request);
-            throw new RuntimeException("Register error with payload: " + request);
+            throw new PayloadValidationException("Register error with payload: " + request);
         }
     }
 }

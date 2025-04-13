@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cwchoiit.board.mapper.CategoryMapper">
+
+    <select id="read" resultType="cwchoiit.board.model.Category">
+        select id, name
+        from category
+        where id = #{id}
+    </select>
+
+    <insert id="register" parameterType="cwchoiit.board.model.Category">
+        insert into category (name)
+        values (#{name})
+    </insert>
+
+    <update id="update" parameterType="cwchoiit.board.service.request.UpdateCategoryRequest">
+        update category
+        set name = #{name}
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from category
+        where id = #{id}
+    </delete>
+</mapper>
