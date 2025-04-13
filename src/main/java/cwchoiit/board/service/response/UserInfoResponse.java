@@ -17,8 +17,9 @@ public class UserInfoResponse {
     private String password;
     private String nickname;
     private boolean isAdmin;
-    private LocalDateTime createdAt;
     private boolean isWithdraw;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public static UserInfoResponse of(User user) {
         UserInfoResponse userInfoResponse = new UserInfoResponse();
@@ -29,6 +30,7 @@ public class UserInfoResponse {
         userInfoResponse.isAdmin = user.isAdmin();
         userInfoResponse.createdAt = user.getCreatedAt();
         userInfoResponse.isWithdraw = user.isWithdraw();
+        userInfoResponse.updatedAt = user.getUpdatedAt();
         return userInfoResponse;
     }
 }

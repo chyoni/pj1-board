@@ -50,6 +50,12 @@ public class User {
         return user;
     }
 
+    public User updatePassword(String password) {
+        this.password = encryptPassword(password);
+        this.updatedAt = LocalDateTime.now();
+        return this;
+    }
+
     private String encryptPassword(String plainPassword) {
         final String ENCRYPTION_KEY = "SHA-256";
         try {

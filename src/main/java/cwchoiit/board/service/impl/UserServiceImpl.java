@@ -60,18 +60,13 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void updatePassword(String id, UpdatePasswordRequest request) {
-        userMapper.findByIdAndPassword(User.withIdAndPassword(Integer.valueOf(id), request.getOldPassword()))
+        User user = userMapper.findByIdAndPassword(User.withIdAndPassword(Integer.valueOf(id), request.getOldPassword()))
                 .orElseThrow(() -> new NotFoundUserException(
                         "Could not find user with id: " + id +
                                 " and password: " + request.getOldPassword())
                 );
 
-        userMapper.updatePassword(
-                User.withIdAndPassword(
-                        Integer.valueOf(id),
-                        request.getNewPassword()
-                )
-        );
+        userMapper.updatePassword(user.updatePassword(request.getNewPassword()));
     }
 
     @Override

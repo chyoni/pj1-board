@@ -5,7 +5,14 @@
 
 <mapper namespace="cwchoiit.board.mapper.UserMapper">
     <select id="read" resultType="cwchoiit.board.model.User">
-        select id, user_id, password, nickname, is_admin, created_at, is_withdraw
+        select id,
+               user_id,
+               password,
+               nickname,
+               is_admin,
+               is_withdraw,
+               created_at,
+               updated_at
         from user
         where id = #{id}
     </select>
@@ -43,7 +50,7 @@
 
     <update id="updatePassword" parameterType="cwchoiit.board.model.User">
         update user
-        set password = #{password}
+        set password = #{password}, updated_at = #{updatedAt}
         where id = #{id}
     </update>
 </mapper>
