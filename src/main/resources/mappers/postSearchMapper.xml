@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cwchoiit.board.mapper.PostSearchMapper">
+
+    <resultMap id="postResultMap" type="cwchoiit.board.model.Post">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="contents" property="contents"/>
+        <result column="views" property="views"/>
+        <result column="is_admin" property="admin"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="user_id" property="userId"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="readAll" resultMap="postResultMap" parameterType="cwchoiit.board.service.request.PostSearchRequest">
+        select id,
+               name,
+               contents,
+               views,
+               is_admin,
+               created_at,
+               updated_at,
+               category_id,
+               user_id
+        from post
+        <where>
+            <if test="name != null and name != ''">
+                name like concat(#{name}, '%')
+            </if>
+            <if test="contents != null and contents.trim() != ''">
+                and contents like concat('%', #{contents}, '%')
+            </if>
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
+            </if>
+        </where>
+        <choose>
+            <when test="sortStatus.name() == 'NEWEST'">
+                order by created_at desc
+            </when>
+            <when test="sortStatus.name() == 'OLDEST'">
+                order by created_at asc
+            </when>
+            <when test="sortStatus.name() == 'CATEGORIES'">
+                order by category_id
+            </when>
+        </choose>
+    </select>
+</mapper>
