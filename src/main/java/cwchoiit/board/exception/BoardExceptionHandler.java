@@ -54,16 +54,9 @@ public class BoardExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(RuntimeException.class)
-    public ApiResponse<?> handleRuntimeException(RuntimeException e) {
-        log.error("[handleRuntimeException] RuntimeException ", e);
-        return ApiResponse.error(e.getMessage());
-    }
-
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public ApiResponse<?> handleException(Exception e) {
         log.error("[handleException] Exception ", e);
-        return ApiResponse.error(e.getMessage());
+        return ApiResponse.error("Sorry, something went wrong. Please try again in a few moments.");
     }
 }
