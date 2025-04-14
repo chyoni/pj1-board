@@ -13,18 +13,21 @@ import cwchoiit.board.service.response.UserInfoResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PostServiceImpl implements PostService {
 
     private final PostMapper postMapper;
     private final UserService userService;
 
     @Override
+    @Transactional
     public void register(String userId, RegisterPostRequest request) {
         UserInfoResponse user = userService.getUserInfo(userId);
 
@@ -59,6 +62,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public void update(String userId, Integer postId, UpdatePostRequest request) {
         Post post = postMapper.read(postId)
                 .orElseThrow(() -> new NotFoundPostException("Post not found with id: " + postId));
@@ -79,6 +83,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public void delete(String userId, Integer postId) {
         postMapper.read(postId)
                 .ifPresentOrElse(
