@@ -3,7 +3,9 @@ package cwchoiit.board.controller;
 import cwchoiit.board.aop.annotation.LoginCheck;
 import cwchoiit.board.auth.annotation.LoginUserId;
 import cwchoiit.board.controller.response.ApiResponse;
+import cwchoiit.board.service.PostSearchService;
 import cwchoiit.board.service.PostService;
+import cwchoiit.board.service.request.PostSearchRequest;
 import cwchoiit.board.service.request.RegisterPostRequest;
 import cwchoiit.board.service.request.UpdatePostRequest;
 import cwchoiit.board.service.response.PostReadResponse;
@@ -24,6 +26,7 @@ import static cwchoiit.board.aop.annotation.LoginCheck.UserType.LOGGED_IN;
 public class PostController {
 
     private final PostService postService;
+    private final PostSearchService postSearchService;
 
     @PostMapping
     @LoginCheck(type = LOGGED_IN)
@@ -36,6 +39,11 @@ public class PostController {
     @GetMapping("/{postId}")
     public ResponseEntity<ApiResponse<PostReadResponse>> read(@PathVariable("postId") Integer postId) {
         return ResponseEntity.ok(ApiResponse.ok(postService.read(postId)));
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<ApiResponse<List<PostReadResponse>>> readAll(@RequestBody PostSearchRequest request) {
+        return ResponseEntity.ok(ApiResponse.ok(postSearchService.readAll(request)));
     }
 
     @GetMapping("/my")
