@@ -40,6 +40,13 @@ public class BoardExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NotFoundPostException.class)
+    public ApiResponse<?> handleNotFoundPostException(NotFoundPostException e) {
+        log.error("[handleNotFoundPostException] NotFoundPostException ", e);
+        return ApiResponse.error(e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(PayloadValidationException.class)
     public ApiResponse<?> handlePayloadValidationException(PayloadValidationException e) {
         log.error("[handlePayloadValidationException] PayloadValidationException ", e);
