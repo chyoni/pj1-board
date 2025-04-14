@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cwchoiit.board.mapper.PostMapper">
+
+    <resultMap id="postResultMap" type="cwchoiit.board.model.Post">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="contents" property="contents"/>
+        <result column="views" property="views"/>
+        <result column="is_admin" property="admin"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="user_id" property="userId"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="read" resultMap="postResultMap">
+        select id,
+               name,
+               contents,
+               views,
+               is_admin,
+               created_at,
+               updated_at,
+               category_id,
+               user_id
+        from post
+        where id = #{id}
+    </select>
+
+    <select id="readAllMy" resultMap="postResultMap">
+        select id,
+               name,
+               contents,
+               views,
+               is_admin,
+               created_at,
+               updated_at,
+               category_id,
+               user_id
+        from post
+        where user_id = #{userId}
+    </select>
+
+    <insert id="insert" parameterType="cwchoiit.board.model.Post">
+        insert into post (name, contents, is_admin, created_at, updated_at, views, category_id, user_id)
+        values (#{name}, #{contents}, #{admin}, #{createdAt}, #{updatedAt}, #{views}, #{categoryId}, #{userId})
+    </insert>
+
+    <update id="update" parameterType="cwchoiit.board.model.Post">
+        update post
+        set name = #{name},
+            contents = #{contents},
+            views = #{views},
+            category_id = #{categoryId},
+            updated_at = #{updatedAt}
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete
+        from post
+        where id = #{id}
+    </delete>
+</mapper>
