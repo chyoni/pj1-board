@@ -3,6 +3,7 @@ package cwchoiit.board.service.impl;
 import cwchoiit.board.exception.NotFoundPostException;
 import cwchoiit.board.exception.PayloadValidationException;
 import cwchoiit.board.mapper.PostMapper;
+import cwchoiit.board.mapper.TagMapper;
 import cwchoiit.board.model.Post;
 import cwchoiit.board.service.PostService;
 import cwchoiit.board.service.UserService;
@@ -24,6 +25,7 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
 
     private final PostMapper postMapper;
+    private final TagMapper tagMapper;
     private final UserService userService;
 
     @Override
@@ -31,19 +33,23 @@ public class PostServiceImpl implements PostService {
     public void register(String userId, RegisterPostRequest request) {
         UserInfoResponse user = userService.getUserInfo(userId);
 
-        // TODO: 파일이 있는 경우엔, 파일 생성 후 포스트 생성
-        int insertCount = postMapper.insert(
-                Post.create(
-                        request.getName(),
-                        request.getContents(),
-                        request.getCategoryId(),
-                        user.getId(),
-                        request.getFileId(),
-                        user.isAdmin()
-                )
+        Post newPost = Post.create(
+                request.getName(),
+                request.getContents(),
+                request.getCategoryId(),
+                user.getId(),
+                request.getFileId(),
+                user.isAdmin()
         );
 
+        // TODO: 파일이 있는 경우엔, 파일 생성 후 포스트 생성
+        int insertCount = postMapper.insert(newPost);
         postValidationRegister(userId, request, insertCount);
+
+        request.getTags().forEach(tag -> {
+            tagMapper.create(tag);
+            tagMapper.mapPostTag(tag.getId(), newPost.getId());
+        });
     }
 
     @Override

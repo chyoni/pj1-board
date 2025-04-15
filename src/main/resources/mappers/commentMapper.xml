@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cwchoiit.board.mapper.CommentMapper">
+
+    <resultMap id="commentResultMap" type="cwchoiit.board.model.Comment">
+        <result column="id" property="id"/>
+        <result column="contents" property="contents"/>
+        <result column="post_id" property="postId"/>
+        <result column="user_id" property="userId"/>
+        <result column="sub_comment_id" property="subCommentId"/>
+    </resultMap>
+
+    <select id="read" resultMap="commentResultMap">
+        select id, contents, post_id, sub_comment_id, user_id
+        from comment
+        where id = #{commentId}
+          and post_id = #{postId}
+    </select>
+
+    <insert id="create" parameterType="cwchoiit.board.model.Comment">
+        insert into comment (user_id, post_id, contents)
+        values (#{userId}, #{postId}, #{contents})
+        <selectKey keyProperty="id" resultType="Integer">
+            select LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="appendSubComment" parameterType="cwchoiit.board.model.Comment">
+        update comment
+        set sub_comment_id = #{subCommentId}
+        where id = #{id}
+    </insert>
+
+    <update id="update" parameterType="cwchoiit.board.model.Comment">
+        update comment
+        set contents = #{contents}
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete
+        from comment
+        where id = #{commentId}
+    </delete>
+</mapper>

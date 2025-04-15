@@ -32,22 +32,28 @@
     </select>
 
     <select id="readAllMy" resultMap="postResultMap">
-        select id,
-               name,
-               contents,
-               views,
-               is_admin,
-               created_at,
-               updated_at,
-               category_id,
-               user_id
-        from post
-        where user_id = #{userId}
+        select post.id,
+               post.name,
+               post.contents,
+               post.views,
+               post.is_admin,
+               post.created_at,
+               post.updated_at,
+               post.category_id,
+               post.user_id
+        from (select id
+              from post
+              where user_id = #{userId}
+              order by created_at desc) t
+                 join post on t.id = post.id
     </select>
 
     <insert id="insert" parameterType="cwchoiit.board.model.Post">
         insert into post (name, contents, is_admin, created_at, updated_at, views, category_id, user_id)
         values (#{name}, #{contents}, #{admin}, #{createdAt}, #{updatedAt}, #{views}, #{categoryId}, #{userId})
+        <selectKey keyProperty="id" resultType="Integer">
+            select LAST_INSERT_ID()
+        </selectKey>
     </insert>
 
     <update id="update" parameterType="cwchoiit.board.model.Post">

@@ -31,4 +31,11 @@ public class PostSearchServiceImpl implements PostSearchService {
                 .map(PostReadResponse::from)
                 .toList();
     }
+
+    @Override
+    public List<PostReadResponse> readAllByTag(String tagName) {
+        return postSearchMapper.readAllByTag(tagName).stream()
+                .map(PostReadResponse::from)
+                .toList();
+    }
 }

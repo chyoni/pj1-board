@@ -47,6 +47,20 @@ public class BoardExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NotFoundCommentException.class)
+    public ApiResponse<?> handleNotFoundCommentException(NotFoundCommentException e) {
+        log.error("[handleNotFoundCommentException] NotFoundCommentException ", e);
+        return ApiResponse.error(e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NotFoundTagException.class)
+    public ApiResponse<?> handleNotFoundTagException(NotFoundTagException e) {
+        log.error("[handleNotFoundTagException] NotFoundTagException ", e);
+        return ApiResponse.error(e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(PayloadValidationException.class)
     public ApiResponse<?> handlePayloadValidationException(PayloadValidationException e) {
         log.error("[handlePayloadValidationException] PayloadValidationException ", e);
