@@ -19,14 +19,14 @@
 
     <select id="readAll" resultMap="postResultMap" parameterType="cwchoiit.board.service.request.PostSearchRequest">
         select id,
-               name,
-               contents,
-               views,
-               is_admin,
-               created_at,
-               updated_at,
-               category_id,
-               user_id
+        name,
+        contents,
+        views,
+        is_admin,
+        created_at,
+        updated_at,
+        category_id,
+        user_id
         from post
         <where>
             <if test="name != null and name != ''">
@@ -50,5 +50,21 @@
                 order by category_id
             </when>
         </choose>
+    </select>
+
+    <select id="readAllByTag" resultMap="postResultMap">
+        select p.id,
+               p.name,
+               p.contents,
+               p.views,
+               p.is_admin,
+               p.created_at,
+               p.updated_at,
+               p.category_id,
+               p.user_id
+        from post p
+                 join post_tag pt on p.id = pt.post_id
+                 join tag t on t.id = pt.tag_id
+        where t.name = #{tagName}
     </select>
 </mapper>

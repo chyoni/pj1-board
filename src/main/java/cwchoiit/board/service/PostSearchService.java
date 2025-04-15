@@ -8,4 +8,6 @@ import java.util.List;
 public interface PostSearchService {
 
     List<PostReadResponse> readAll(PostSearchRequest request);
+
+    List<PostReadResponse> readAllByTag(String tagName);
 }
