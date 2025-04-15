@@ -15,3 +15,16 @@ from (select id
       order by created_at desc) t
          join post on t.id = post.id;
 
+-- read comment
+explain
+select id, contents, post_id, sub_comment_id, user_id
+from comment
+where id = 5
+  and post_id = 3;
+
+-- readAll comment
+explain
+select id, contents, post_id, sub_comment_id, user_id
+from comment
+where post_id = 3
+order by id desc;
