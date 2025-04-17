@@ -1,4 +1,4 @@
-package cwchoiit.board.service.impl;
+package cwchoiit.board.service;
 
 import com.slack.api.Slack;
 import com.slack.api.methods.MethodsClient;

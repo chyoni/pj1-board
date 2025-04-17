@@ -1,6 +1,7 @@
 package cwchoiit.board.service.impl;
 
 import cwchoiit.board.SpringBootTestWithTestContainer;
+import cwchoiit.board.service.SlackService;
 import cwchoiit.board.service.request.SlackMessageRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

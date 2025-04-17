@@ -1,7 +1,7 @@
 package cwchoiit.board.exception;
 
 import cwchoiit.board.controller.response.ApiResponse;
-import cwchoiit.board.service.impl.SlackService;
+import cwchoiit.board.service.SlackService;
 import cwchoiit.board.service.request.SlackMessageRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
