@@ -28,6 +28,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+@DisplayName("Service - UserService")
 class UserServiceImplTest extends SpringBootTestWithTestContainer {
 
     @Autowired
