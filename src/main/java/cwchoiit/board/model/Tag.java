@@ -18,7 +18,7 @@ public class Tag {
         return tag;
     }
 
-    public Tag withUpdateName(String name) {
+    public Tag updateWithName(String name) {
         this.name = name;
         return this;
     }

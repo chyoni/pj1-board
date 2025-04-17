@@ -93,3 +93,5 @@ build/
 
 http/
 *.http
+
+locust/__pycache__/

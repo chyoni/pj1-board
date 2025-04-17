@@ -14,4 +14,18 @@ public class RegisterUserRequest {
     private String nickname;
     private boolean admin;
     private boolean withdraw;
+
+    public static RegisterUserRequest of(String userId,
+                                         String password,
+                                         String nickname,
+                                         boolean admin,
+                                         boolean withdraw) {
+        RegisterUserRequest request = new RegisterUserRequest();
+        request.userId = userId;
+        request.password = password;
+        request.nickname = nickname;
+        request.admin = admin;
+        request.withdraw = withdraw;
+        return request;
+    }
 }

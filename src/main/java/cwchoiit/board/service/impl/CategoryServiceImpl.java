@@ -30,7 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
     public void update(Integer categoryId, UpdateCategoryRequest request) {
         categoryMapper.read(categoryId)
                 .ifPresentOrElse(
-                        (category) -> categoryMapper.update(category.withUpdateName(request.getName())),
+                        (category) -> categoryMapper.update(category.updateWithName(request.getName())),
                         () -> {
                             throw new NotFoundCategoryException("Category with id " + categoryId + " not found");
                         });

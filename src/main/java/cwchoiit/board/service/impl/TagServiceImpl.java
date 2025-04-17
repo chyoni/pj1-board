@@ -37,7 +37,7 @@ public class TagServiceImpl implements TagService {
         Tag tag = tagMapper.read(tagId)
                 .orElseThrow(() -> new NotFoundTagException("Tag not found with id " + tagId));
 
-        tagMapper.update(tag.withUpdateName(request.getName()));
+        tagMapper.update(tag.updateWithName(request.getName()));
     }
 
     @Override

@@ -41,7 +41,7 @@ public class Post {
         return post;
     }
 
-    public Post withUpdate(String name, String contents, Integer categoryId, Integer fileId, Integer views) {
+    public Post updateWith(String name, String contents, Integer categoryId, Integer fileId, Integer views) {
         this.name = this.name.equals(name) || name == null ?
                 this.name :
                 name;
