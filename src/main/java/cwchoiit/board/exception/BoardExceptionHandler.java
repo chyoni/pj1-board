@@ -68,6 +68,13 @@ public class BoardExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(SnsException.class)
+    public ApiResponse<?> handleCreateSnsTopicException(SnsException e) {
+        log.error("[handleCreateSnsTopicException] CreateSnsTopicException ", e);
+        return ApiResponse.error(e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public ApiResponse<?> handleException(Exception e) {
         log.error("[handleException] Exception ", e);
