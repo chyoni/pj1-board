@@ -11,3 +11,17 @@ spring:
 
 mybatis:
   mapper-locations: classpath:cwchoiit.board.mappers/*.xml
+
+cloud:
+  aws:
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+aws:
+  access-key: <your IAM User access key>
+  secret-key: <your IAM User secret key>
+  region: ap-northeast-2
+  sns:
+    default-topic: <your sns topic arn>

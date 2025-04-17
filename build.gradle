@@ -33,6 +33,10 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+    implementation platform('software.amazon.awssdk:bom:2.25.28')
+    implementation 'software.amazon.awssdk:sns'
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws-messaging:2.2.6.RELEASE'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation 'org.springframework.boot:spring-boot-testcontainers'
