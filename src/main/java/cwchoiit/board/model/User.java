@@ -50,7 +50,7 @@ public class User {
         return user;
     }
 
-    public User updatePassword(String password) {
+    public User updateWithPassword(String password) {
         this.password = encryptPassword(password);
         this.updatedAt = LocalDateTime.now();
         return this;

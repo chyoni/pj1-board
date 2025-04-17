@@ -31,11 +31,8 @@ create table post
     constraint fk_post_user foreign key (user_id) references user (id) on delete cascade
 );
 
--- MySQL index 생성은 WHERE -> ORDER BY 순서로 인덱스를 타게 설계하면 좋다.
 create unique index idx_user_id_created_at on post (user_id asc, created_at desc);
 create index idx_category_id_created_at on post (category_id asc, created_at desc);
-create index idx_name on post (name);
-create index idx_name_category_id_created_at on post (name, category_id, created_at desc);
 
 create table tag
 (

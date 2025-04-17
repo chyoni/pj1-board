@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
                                 " and password: " + request.getOldPassword())
                 );
 
-        userMapper.updatePassword(user.updatePassword(request.getNewPassword()));
+        userMapper.updatePassword(user.updateWithPassword(request.getNewPassword()));
     }
 
     @Override

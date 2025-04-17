@@ -33,23 +33,27 @@ public class PostServiceImpl implements PostService {
     public void register(String userId, RegisterPostRequest request) {
         UserInfoResponse user = userService.getUserInfo(userId);
 
-        Post newPost = Post.create(
-                request.getName(),
-                request.getContents(),
-                request.getCategoryId(),
-                user.getId(),
-                request.getFileId(),
-                user.isAdmin()
-        );
+        synchronized (this) {
+            Post newPost = Post.create(
+                    request.getName(),
+                    request.getContents(),
+                    request.getCategoryId(),
+                    user.getId(),
+                    request.getFileId(),
+                    user.isAdmin()
+            );
 
-        // TODO: 파일이 있는 경우엔, 파일 생성 후 포스트 생성
-        int insertCount = postMapper.insert(newPost);
-        postValidationRegister(userId, request, insertCount);
+            // TODO: 파일이 있는 경우엔, 파일 생성 후 포스트 생성
+            int insertCount = postMapper.insert(newPost);
+            postValidationRegister(userId, request, insertCount);
 
-        request.getTags().forEach(tag -> {
-            tagMapper.create(tag);
-            tagMapper.mapPostTag(tag.getId(), newPost.getId());
-        });
+            if (request.getTags() != null) {
+                request.getTags().forEach(tag -> {
+                    tagMapper.create(tag);
+                    tagMapper.mapPostTag(tag.getId(), newPost.getId());
+                });
+            }
+        }
     }
 
     @Override
@@ -61,8 +65,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostReadResponse> readAllMy(String userId) {
-        return postMapper.readAllMy(userId)
-                .stream()
+        return postMapper.readAllMy(userId).stream()
                 .map(PostReadResponse::from)
                 .toList();
     }
@@ -78,7 +81,7 @@ public class PostServiceImpl implements PostService {
         }
 
         postMapper.update(
-                post.withUpdate(
+                post.updateWith(
                         request.getName(),
                         request.getContents(),
                         request.getCategoryId(),
@@ -97,9 +100,8 @@ public class PostServiceImpl implements PostService {
                             if (!post.getUserId().equals(Integer.valueOf(userId))) {
                                 throw new PayloadValidationException(
                                         "Permission denied for user id: " + userId +
-                                        " delete post id: " + postId);
+                                                " delete post id: " + postId);
                             }
-                            // TODO: 파일과 댓글이 있는경우, 파일, 댓글 제거 후 포스트 제거
                             postMapper.delete(post.getId());
                         },
                         () -> {

@@ -15,6 +15,22 @@ from (select id
       order by created_at desc) t
          join post on t.id = post.id;
 
+-- search with like
+explain
+select id,
+       name,
+       contents,
+       views,
+       is_admin,
+       created_at,
+       updated_at,
+       category_id,
+       user_id
+from post
+where name like concat('테스트', '%')
+and category_id = 2
+order by created_at;
+
 -- read comment
 explain
 select id, contents, post_id, sub_comment_id, user_id
