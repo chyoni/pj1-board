@@ -37,6 +37,10 @@ dependencies {
     implementation 'software.amazon.awssdk:sns'
     implementation 'org.springframework.cloud:spring-cloud-starter-aws-messaging:2.2.6.RELEASE'
 
+    implementation 'com.slack.api:bolt:1.44.0'
+    implementation 'com.slack.api:bolt-servlet:1.40.2'
+    implementation 'com.slack.api:bolt-jetty:1.44.0'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation 'org.springframework.boot:spring-boot-testcontainers'

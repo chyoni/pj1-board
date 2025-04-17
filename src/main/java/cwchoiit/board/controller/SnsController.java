@@ -11,7 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static cwchoiit.board.aop.annotation.LoginCheck.UserType.*;
+import static cwchoiit.board.aop.annotation.LoginCheck.UserType.ADMIN;
+import static cwchoiit.board.aop.annotation.LoginCheck.UserType.LOGGED_IN;
 
 @Slf4j
 @RestController
