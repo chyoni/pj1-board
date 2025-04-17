@@ -47,9 +47,15 @@
 |         | 태그 작성 및 조회 기능           | ✅  |
 |         | 댓글 작성 기능                | ✅  |
 | **알림**  | AWS SNS 알림              | ✅  |
-|         | Slack 알림                |    |
-| **관리자** | 공지 글 추가 기능              |    |
+|         | Slack 알림                | ✅  |
+| **관리자** | 공지 글 추가 기능              | ✅  |
 
 ## 🗼 ERD
 
 ![ERD Preview](docs/erd.png)
+
+---
+
+## 🏛️ Architecture
+
+![ERD Preview](docs/archi.png)
