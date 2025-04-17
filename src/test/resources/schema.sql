@@ -33,6 +33,8 @@ create table post
 
 create unique index idx_user_id_created_at on post (user_id asc, created_at desc);
 create index idx_category_id_created_at on post (category_id asc, created_at desc);
+create index idx_name on post (name);
+create index idx_name_category_id_created_at on post (name, category_id, created_at desc);
 
 create table tag
 (

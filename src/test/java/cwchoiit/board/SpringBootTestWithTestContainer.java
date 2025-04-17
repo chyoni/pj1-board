@@ -11,7 +11,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @Testcontainers
 @Transactional
 @SpringBootTest
-public class IntegrationWithTestContainer {
+public class SpringBootTestWithTestContainer {
     @Container
     @SuppressWarnings("resource")
     static MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.0.38")

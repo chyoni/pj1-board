@@ -52,6 +52,7 @@ public class UserServiceImpl implements UserService {
                 );
     }
 
+
     @Override
     public UserInfoResponse getUserInfo(String id) {
         return userMapper.read(id)
