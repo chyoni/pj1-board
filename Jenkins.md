@@ -71,6 +71,8 @@ brew install ngrok
 ngrok http 8081 
 ```
 
+![ERD Preview](docs/ngrok2.png)
+
 ---
 
 ### 2️⃣ Github Webhook 
@@ -79,12 +81,13 @@ ngrok http 8081
 
 | 항목           | 값                                                      |
 |--------------|--------------------------------------------------------|
-| Payload URL  | http://<your-jenkins-url>/github-webhook/              |
+| Payload URL  | `<ngrok URL>`/github-webhook/                          |
 | Content type | application/json                                       |
 | Secret       | 비워도 됨 (보안 필요시 설정)                                      |
 | Events       | Just the push event (→ 또는 Let me select에서 Pushes 만 체크) |
 
-	
-	
+- **주의:** 반드시 Payload URL 마지막에 `/github-webhook/` 을 붙여야 한다. 
+
+### 3️⃣ main 브랜치로 머지 또는 직접 푸시하면 Webhook 실행 및 젠킨스 자동 빌드!
 	
 	
