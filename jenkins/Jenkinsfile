@@ -24,6 +24,5 @@ pipeline {
         sh './gradlew test'
       }
     }
-    // 배포는 EC2로 하면 되지만.. 과금 이슈로 ..
   }
 }
