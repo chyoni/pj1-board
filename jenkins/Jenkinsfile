@@ -2,26 +2,33 @@ pipeline {
   agent any
 
   triggers {
-    githubPush() // GitHub Webhook 트리거
+    githubPush() // GitHub Webhook과 연결해서 자동 실행
   }
 
   stages {
-    stage('Clone') {
-      steps {
-        echo '🔄 클론 단계'
-        // Jenkins가 알아서 clone 해줘서 실제 작업은 없음
-      }
-    }
     stage('Build') {
       steps {
-        echo '🔧 빌드 단계'
+        echo '🔧 빌드 시작!'
         sh './gradlew clean build'
       }
     }
+
     stage('Test') {
       steps {
-        echo '🧪 테스트 단계'
+        echo '🧪 테스트 실행!'
         sh './gradlew test'
+      }
+    }
+
+    stage('Deploy') {
+      steps {
+        echo '🚀 배포 시작!'
+        sshagent(['deploy-key']) {
+          sh '''
+            scp build/libs/*.jar ubuntu@my-server:/home/ubuntu/app.jar
+            ssh ubuntu@my-server 'pkill -f app.jar || true && nohup java -jar /home/ubuntu/app.jar > app.log 2>&1 &'
+          '''
+        }
       }
     }
   }
