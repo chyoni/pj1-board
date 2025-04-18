@@ -15,7 +15,7 @@ from (select id
       order by created_at desc) t
          join post on t.id = post.id;
 
--- search with like
+-- search with name and category_id
 explain
 select id,
        name,
@@ -30,6 +30,20 @@ from post
 where name like concat('테스트', '%')
 and category_id = 2
 order by created_at;
+
+-- search with name
+explain
+select id,
+       name,
+       contents,
+       views,
+       is_admin,
+       created_at,
+       updated_at,
+       category_id,
+       user_id
+from post
+where name like concat('테스트', '%');
 
 -- read comment
 explain

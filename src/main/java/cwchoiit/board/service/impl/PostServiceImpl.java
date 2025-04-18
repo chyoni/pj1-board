@@ -43,7 +43,6 @@ public class PostServiceImpl implements PostService {
                     user.isAdmin()
             );
 
-            // TODO: 파일이 있는 경우엔, 파일 생성 후 포스트 생성
             int insertCount = postMapper.insert(newPost);
             postValidationRegister(userId, request, insertCount);
 
