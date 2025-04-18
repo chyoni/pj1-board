@@ -1,0 +1,28 @@
+pipeline {
+  agent any
+
+  triggers {
+    githubPush() // GitHub Webhook 트리거
+  }
+
+  stages {
+    stage('Clone') {
+      steps {
+        echo '🔄 클론 단계'
+        // Jenkins가 알아서 clone 해줘서 실제 작업은 없음
+      }
+    }
+    stage('Build') {
+      steps {
+        echo '🔧 빌드 단계'
+        sh './gradlew clean build'
+      }
+    }
+    stage('Test') {
+      steps {
+        echo '🧪 테스트 단계'
+        sh './gradlew test'
+      }
+    }
+  }
+}
