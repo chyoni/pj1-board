@@ -31,6 +31,10 @@ public class AwsSnsServiceImpl implements SnsService {
 
     private SnsClient client;
 
+    private AwsCredentialsProvider getCredentialsProvider() {
+        return () -> AwsBasicCredentials.create(accessKey, secretKey);
+    }
+
     @PostConstruct
     public void init() {
         client = SnsClient.builder()
@@ -109,9 +113,5 @@ public class AwsSnsServiceImpl implements SnsService {
             );
         }
         return publishResponse.messageId();
-    }
-
-    private AwsCredentialsProvider getCredentialsProvider() {
-        return () -> AwsBasicCredentials.create(accessKey, secretKey);
     }
 }

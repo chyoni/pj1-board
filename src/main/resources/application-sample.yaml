@@ -23,6 +23,8 @@ aws:
   access-key: <your IAM User access key>
   secret-key: <your IAM User secret key>
   region: ap-northeast-2
+  s3:
+    bucket: <your bucket name>
   sns:
     default-topic: <your sns topic arn>
 
