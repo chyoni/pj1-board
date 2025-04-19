@@ -35,6 +35,7 @@ dependencies {
 
     implementation platform('software.amazon.awssdk:bom:2.25.28')
     implementation 'software.amazon.awssdk:sns'
+    implementation 'software.amazon.awssdk:s3'
     implementation 'org.springframework.cloud:spring-cloud-starter-aws-messaging:2.2.6.RELEASE'
 
     implementation 'com.slack.api:bolt:1.44.0'

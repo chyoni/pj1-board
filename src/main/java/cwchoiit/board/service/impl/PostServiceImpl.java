@@ -5,6 +5,7 @@ import cwchoiit.board.exception.PayloadValidationException;
 import cwchoiit.board.mapper.PostMapper;
 import cwchoiit.board.mapper.TagMapper;
 import cwchoiit.board.model.Post;
+import cwchoiit.board.service.FileService;
 import cwchoiit.board.service.PostService;
 import cwchoiit.board.service.UserService;
 import cwchoiit.board.service.request.RegisterPostRequest;
@@ -27,6 +28,7 @@ public class PostServiceImpl implements PostService {
     private final PostMapper postMapper;
     private final TagMapper tagMapper;
     private final UserService userService;
+    private final FileService fileService;
 
     @Override
     @Transactional
@@ -38,13 +40,17 @@ public class PostServiceImpl implements PostService {
                     request.getName(),
                     request.getContents(),
                     request.getCategoryId(),
-                    user.getId(),
                     request.getFileId(),
+                    user.getId(),
                     user.isAdmin()
             );
 
             int insertCount = postMapper.insert(newPost);
             postValidationRegister(userId, request, insertCount);
+
+            if (newPost.getFileId() != null) {
+                fileService.mapToPost(newPost.getFileId(), newPost.getId());
+            }
 
             if (request.getTags() != null) {
                 request.getTags().forEach(tag -> {

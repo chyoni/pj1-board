@@ -60,9 +60,11 @@ create table file
     path      varchar(255) not null,
     name      varchar(45)  not null,
     extension varchar(45)  not null,
-    post_id   int          not null,
-    constraint fk_file_post foreign key (post_id) references post (id) on delete cascade
+    post_id   int,
+    constraint fk_file_post foreign key (post_id) references post (id) on delete set null
 );
+
+create unique index idx_path on file (path);
 
 create table comment
 (

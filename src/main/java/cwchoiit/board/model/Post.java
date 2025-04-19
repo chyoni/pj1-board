@@ -25,8 +25,8 @@ public class Post {
     public static Post create(String name,
                               String contents,
                               Integer categoryId,
-                              Integer userId,
                               Integer fileId,
+                              Integer userId,
                               boolean admin) {
         Post post = new Post();
         post.name = name;

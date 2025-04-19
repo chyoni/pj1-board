@@ -151,6 +151,13 @@ public class BoardExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(S3Exception.class)
+    public ApiResponse<?> handleS3Exception(S3Exception e) {
+        log.error("[handleS3Exception] S3Exception ", e);
+        return ApiResponse.error(e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public ApiResponse<?> handleException(Exception e) {
         log.error("[handleException] Exception ", e);
